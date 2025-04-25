@@ -14,13 +14,13 @@ import jakarta.persistence.Entity;
  * Usage (more example on the documentation)
  *
  * {@code
- *     public void doSomething() {
- *         MyEntity entity1 = new MyEntity();
- *         entity1.field = "field-1";
- *         entity1.persist();
+ * public void doSomething() {
+ * MyEntity entity1 = new MyEntity();
+ * entity1.field = "field-1";
+ * entity1.persist();
  *
- *         List<MyEntity> entities = MyEntity.listAll();
- *     }
+ * List<MyEntity> entities = MyEntity.listAll();
+ * }
  * }
  */
 @Entity
