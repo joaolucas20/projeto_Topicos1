@@ -6,6 +6,7 @@ public class ItemPedidoResponseDTO {
     private Integer quantidade;
     private Double preco;
     private Long pedidoId;
+    private Long betoneiraId;
 
     public Long getId() {
         return id;
@@ -37,5 +38,13 @@ public class ItemPedidoResponseDTO {
 
     public void setPedidoId(Long pedidoId) {
         this.pedidoId = pedidoId;
+    }
+
+    public Long getBetoneiraId() {
+        return betoneiraId;
+    }
+
+    public void setBetoneiraId(Long betoneiraId) {
+        this.betoneiraId = betoneiraId;
     }
 }

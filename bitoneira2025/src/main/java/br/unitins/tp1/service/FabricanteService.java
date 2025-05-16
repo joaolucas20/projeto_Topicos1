@@ -19,7 +19,7 @@ public class FabricanteService {
     private static final Logger LOGGER = Logger.getLogger(FabricanteService.class.getName());
 
     @Inject
-    FabricanteRepository repository; // Removed @Named
+    FabricanteRepository repository;
 
     public List<FabricanteResponseDTO> getAll() {
         LOGGER.info("Getting all fabricantes");
@@ -42,8 +42,9 @@ public class FabricanteService {
     public FabricanteResponseDTO create(FabricanteRequestDTO dto) {
         LOGGER.info("Creating a new fabricante");
         Fabricante fabricante = new Fabricante();
-        fabricante.nome = dto.getNome(); // Use getter
-        fabricante.cnpj = dto.getCnpj();  // Use getter
+        fabricante.setNome(dto.getNome());
+        fabricante.setCnpj(dto.getCnpj());
+
         repository.persist(fabricante);
         return toResponseDTO(fabricante);
     }
@@ -55,8 +56,9 @@ public class FabricanteService {
         if (fabricante == null) {
             throw new ServiceException("Fabricante not found with ID: " + id, Response.Status.NOT_FOUND);
         }
-        fabricante.nome = dto.getNome(); // Use getter
-        fabricante.cnpj = dto.getCnpj();  // Use getter
+        fabricante.setNome(dto.getNome());
+        fabricante.setCnpj(dto.getCnpj());
+
         repository.persist(fabricante);
         return toResponseDTO(fabricante);
     }
@@ -71,9 +73,9 @@ public class FabricanteService {
 
     private FabricanteResponseDTO toResponseDTO(Fabricante fabricante) {
         FabricanteResponseDTO responseDTO = new FabricanteResponseDTO();
-        responseDTO.setId(fabricante.getId());  // Use getId()
-        responseDTO.setNome(fabricante.getNome());  // Use getNome()
-        responseDTO.setCnpj(fabricante.getCnpj());  // Use getCnpj()
+        responseDTO.setId(fabricante.getId());
+        responseDTO.setNome(fabricante.getNome());
+        responseDTO.setCnpj(fabricante.getCnpj());
         return responseDTO;
     }
 }

@@ -16,6 +16,9 @@ public class ItemPedidoRequestDTO {
     @NotNull(message = "Pedido ID cannot be null")
     private Long pedidoId;
 
+    @NotNull(message = "Betoneira ID cannot be null")
+    private Long betoneiraId;
+
     public Integer getQuantidade() {
         return quantidade;
     }
@@ -38,5 +41,13 @@ public class ItemPedidoRequestDTO {
 
     public void setPedidoId(Long pedidoId) {
         this.pedidoId = pedidoId;
+    }
+
+    public Long getBetoneiraId() {
+        return betoneiraId;
+    }
+
+    public void setBetoneiraId(Long betoneiraId) {
+        this.betoneiraId = betoneiraId;
     }
 }

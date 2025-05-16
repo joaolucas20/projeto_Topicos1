@@ -15,6 +15,10 @@ public class ItemPedido extends PanacheEntity {
     @JoinColumn(name = "pedido_id")
     public Pedido pedido;
 
+    @ManyToOne
+    @JoinColumn(name = "betoneira_id")  // Added: Foreign key to Betoneira
+    public Betoneira betoneira;         // Added: Relationship with Betoneira
+
     public Long getId() {
         return id;
     }
@@ -41,5 +45,13 @@ public class ItemPedido extends PanacheEntity {
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
+    }
+
+    public Betoneira getBetoneira() {
+        return betoneira;
+    }
+
+    public void setBetoneira(Betoneira betoneira) {
+        this.betoneira = betoneira;
     }
 }

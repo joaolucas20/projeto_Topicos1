@@ -42,8 +42,9 @@ public class ClienteService {
     public ClienteResponseDTO create(ClienteRequestDTO dto) {
         LOGGER.info("Creating a new cliente");
         Cliente cliente = new Cliente();
-        cliente.nome = dto.getNome();
-        cliente.email = dto.getEmail();
+        cliente.setNome(dto.getNome());
+        cliente.setEmail(dto.getEmail());
+
         repository.persist(cliente);
         return toResponseDTO(cliente);
     }
@@ -55,8 +56,9 @@ public class ClienteService {
         if (cliente == null) {
             throw new ServiceException("Cliente not found with ID: " + id, Response.Status.NOT_FOUND);
         }
-        cliente.nome = dto.getNome();
-        cliente.email = dto.getEmail();
+        cliente.setNome(dto.getNome());
+        cliente.setEmail(dto.getEmail());
+
         repository.persist(cliente);
         return toResponseDTO(cliente);
     }

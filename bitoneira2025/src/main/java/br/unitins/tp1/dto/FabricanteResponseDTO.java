@@ -1,6 +1,6 @@
 package br.unitins.tp1.dto;
 
-import java.util.Objects; // Import for equals and hashCode
+import java.util.Objects;
 
 public class FabricanteResponseDTO {
 
@@ -8,18 +8,15 @@ public class FabricanteResponseDTO {
     private String nome;
     private String cnpj;
 
-    // Default Constructor
     public FabricanteResponseDTO() {
     }
 
-    // Parameterized Constructor
     public FabricanteResponseDTO(Long id, String nome, String cnpj) {
         this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -44,7 +41,6 @@ public class FabricanteResponseDTO {
         this.cnpj = cnpj;
     }
 
-    // equals() and hashCode()
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

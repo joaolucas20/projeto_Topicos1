@@ -4,9 +4,9 @@ import br.unitins.tp1.dto.PedidoRequestDTO;
 import br.unitins.tp1.dto.PedidoResponseDTO;
 import br.unitins.tp1.exception.ServiceException;
 import br.unitins.tp1.model.Pedido;
+import br.unitins.tp1.model.Cliente;
 import br.unitins.tp1.repository.PedidoRepository;
 import br.unitins.tp1.repository.ClienteRepository; // Import ClienteRepository
-import br.unitins.tp1.model.Cliente; // Import Cliente
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -47,14 +47,14 @@ public class PedidoService {
     public PedidoResponseDTO create(PedidoRequestDTO dto) {
         LOGGER.info("Creating a new pedido");
         Pedido pedido = new Pedido();
-        pedido.dataPedido = dto.getDataPedido();
+        pedido.setDataPedido(dto.getDataPedido());
 
         // Fetch the Cliente entity using clienteId from DTO
         Cliente cliente = clienteRepository.findById(dto.getClienteId());
         if (cliente == null) {
             throw new ServiceException("Cliente not found with ID: " + dto.getClienteId(), Response.Status.NOT_FOUND);
         }
-        pedido.cliente = cliente;
+        pedido.setCliente(cliente);
 
         repository.persist(pedido);
         return toResponseDTO(pedido);
@@ -67,14 +67,14 @@ public class PedidoService {
         if (pedido == null) {
             throw new ServiceException("Pedido not found with ID: " + id, Response.Status.NOT_FOUND);
         }
-        pedido.dataPedido = dto.getDataPedido();
+        pedido.setDataPedido(dto.getDataPedido());
 
         // Fetch the Cliente entity using clienteId from DTO
         Cliente cliente = clienteRepository.findById(dto.getClienteId());
         if (cliente == null) {
             throw new ServiceException("Cliente not found with ID: " + dto.getClienteId(), Response.Status.NOT_FOUND);
         }
-        pedido.cliente = cliente;
+        pedido.setCliente(cliente);
 
         repository.persist(pedido);
         return toResponseDTO(pedido);
@@ -90,9 +90,13 @@ public class PedidoService {
 
     private PedidoResponseDTO toResponseDTO(Pedido pedido) {
         PedidoResponseDTO responseDTO = new PedidoResponseDTO();
-        responseDTO.setId(pedido.getId());
-        responseDTO.setDataPedido(pedido.getDataPedido());
-        responseDTO.setClienteId(pedido.cliente.getId()); // Include clienteId in the response
+        if (pedido != null) { // Null check
+            responseDTO.setId(pedido.getId());
+            responseDTO.setDataPedido(pedido.getDataPedido());
+            if (pedido.getCliente() != null) { // Nested null check
+                responseDTO.setClienteId(pedido.getCliente().getId());
+            }
+        }
         return responseDTO;
     }
 }

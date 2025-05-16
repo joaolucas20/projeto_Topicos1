@@ -4,9 +4,11 @@ import br.unitins.tp1.dto.ItemPedidoRequestDTO;
 import br.unitins.tp1.dto.ItemPedidoResponseDTO;
 import br.unitins.tp1.exception.ServiceException;
 import br.unitins.tp1.model.ItemPedido;
+import br.unitins.tp1.model.Pedido;
+import br.unitins.tp1.model.Betoneira;
 import br.unitins.tp1.repository.ItemPedidoRepository;
-import br.unitins.tp1.repository.PedidoRepository; // Import PedidoRepository
-import br.unitins.tp1.model.Pedido; // Import Pedido
+import br.unitins.tp1.repository.PedidoRepository;
+import br.unitins.tp1.repository.BetoneiraRepository; // Import BetoneiraRepository
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -24,7 +26,10 @@ public class ItemPedidoService {
     ItemPedidoRepository repository;
 
     @Inject
-    PedidoRepository pedidoRepository; // Inject PedidoRepository
+    PedidoRepository pedidoRepository;
+
+    @Inject
+    BetoneiraRepository betoneiraRepository; // Inject BetoneiraRepository
 
     public List<ItemPedidoResponseDTO> getAll() {
         LOGGER.info("Getting all itensPedido");
@@ -47,15 +52,22 @@ public class ItemPedidoService {
     public ItemPedidoResponseDTO create(ItemPedidoRequestDTO dto) {
         LOGGER.info("Creating a new itemPedido");
         ItemPedido itemPedido = new ItemPedido();
-        itemPedido.quantidade = dto.getQuantidade();
-        itemPedido.preco = dto.getPreco();
+        itemPedido.setQuantidade(dto.getQuantidade());
+        itemPedido.setPreco(dto.getPreco());
 
         // Fetch the Pedido entity using pedidoId from DTO
         Pedido pedido = pedidoRepository.findById(dto.getPedidoId());
         if (pedido == null) {
             throw new ServiceException("Pedido not found with ID: " + dto.getPedidoId(), Response.Status.NOT_FOUND);
         }
-        itemPedido.pedido = pedido;
+        itemPedido.setPedido(pedido);
+
+        // Fetch the Betoneira entity using betoneiraId from DTO
+        Betoneira betoneira = betoneiraRepository.findById(dto.getBetoneiraId());
+        if (betoneira == null) {
+            throw new ServiceException("Betoneira not found with ID: " + dto.getBetoneiraId(), Response.Status.NOT_FOUND);
+        }
+        itemPedido.setBetoneira(betoneira);
 
         repository.persist(itemPedido);
         return toResponseDTO(itemPedido);
@@ -68,15 +80,22 @@ public class ItemPedidoService {
         if (itemPedido == null) {
             throw new ServiceException("ItemPedido not found with ID: " + id, Response.Status.NOT_FOUND);
         }
-        itemPedido.quantidade = dto.getQuantidade();
-        itemPedido.preco = dto.getPreco();
+        itemPedido.setQuantidade(dto.getQuantidade());
+        itemPedido.setPreco(dto.getPreco());
 
         // Fetch the Pedido entity using pedidoId from DTO
         Pedido pedido = pedidoRepository.findById(dto.getPedidoId());
         if (pedido == null) {
             throw new ServiceException("Pedido not found with ID: " + dto.getPedidoId(), Response.Status.NOT_FOUND);
         }
-        itemPedido.pedido = pedido;
+        itemPedido.setPedido(pedido);
+
+        // Fetch the Betoneira entity using betoneiraId from DTO
+        Betoneira betoneira = betoneiraRepository.findById(dto.getBetoneiraId());
+        if (betoneira == null) {
+            throw new ServiceException("Betoneira not found with ID: " + dto.getBetoneiraId(), Response.Status.NOT_FOUND);
+        }
+        itemPedido.setBetoneira(betoneira);
 
         repository.persist(itemPedido);
         return toResponseDTO(itemPedido);
@@ -92,10 +111,17 @@ public class ItemPedidoService {
 
     private ItemPedidoResponseDTO toResponseDTO(ItemPedido itemPedido) {
         ItemPedidoResponseDTO responseDTO = new ItemPedidoResponseDTO();
-        responseDTO.setId(itemPedido.getId());
-        responseDTO.setQuantidade(itemPedido.getQuantidade());
-        responseDTO.setPreco(itemPedido.getPreco());
-        responseDTO.setPedidoId(itemPedido.pedido.getId()); // Include pedidoId in the response
+        if (itemPedido != null) { // Null check
+            responseDTO.setId(itemPedido.getId());
+            responseDTO.setQuantidade(itemPedido.getQuantidade());
+            responseDTO.setPreco(itemPedido.getPreco());
+            if (itemPedido.getPedido() != null) { // Nested null check
+                responseDTO.setPedidoId(itemPedido.getPedido().getId());
+            }
+            if (itemPedido.getBetoneira() != null) { // Nested null check
+                responseDTO.setBetoneiraId(itemPedido.getBetoneira().getId());
+            }
+        }
         return responseDTO;
     }
 }

@@ -1,7 +1,7 @@
 package br.unitins.tp1.dto;
 
 import br.unitins.tp1.model.TipoBetoneiraEnum;
-import java.util.Objects; // Import for equals and hashCode
+import java.util.Objects;
 
 public class BetoneiraResponseDTO {
 
@@ -12,11 +12,9 @@ public class BetoneiraResponseDTO {
     private TipoBetoneiraEnum tipo;
     private FabricanteResponseDTO fabricante;
 
-    // Default Constructor
     public BetoneiraResponseDTO() {
     }
 
-    // Parameterized Constructor
     public BetoneiraResponseDTO(Long id, String marca, String modelo, double capacidade, TipoBetoneiraEnum tipo, FabricanteResponseDTO fabricante) {
         this.id = id;
         this.marca = marca;
@@ -26,7 +24,6 @@ public class BetoneiraResponseDTO {
         this.fabricante = fabricante;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -75,7 +72,6 @@ public class BetoneiraResponseDTO {
         this.fabricante = fabricante;
     }
 
-    // equals() and hashCode()
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

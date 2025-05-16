@@ -2,7 +2,7 @@ package br.unitins.tp1.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import java.util.Objects; // Import for equals and hashCode
+import java.util.Objects;
 
 public class FabricanteRequestDTO {
 
@@ -14,17 +14,14 @@ public class FabricanteRequestDTO {
     @Size(min = 14, max = 14, message = "CNPJ must be 14 characters")
     private String cnpj;
 
-    // Default Constructor
     public FabricanteRequestDTO() {
     }
 
-    // Parameterized Constructor
     public FabricanteRequestDTO(String nome, String cnpj) {
         this.nome = nome;
         this.cnpj = cnpj;
     }
 
-    // Getters and Setters
     public String getNome() {
         return nome;
     }
@@ -41,7 +38,6 @@ public class FabricanteRequestDTO {
         this.cnpj = cnpj;
     }
 
-    // equals() and hashCode()
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
